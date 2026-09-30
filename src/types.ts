@@ -60,6 +60,11 @@ export interface GroupConfig {
   prompt?: string;
   /** 群历史消息缓存条数（0 禁用，默认 20） */
   historyLimit?: number;
+  /**
+   * per-user 免@触发白名单：名单内 openid 用户每条消息都触发 AI（对其 requireMention 置 false），
+   * 其余用户仍按 requireMention 判断是否需要 @。优先级：具体群 > "*" > 空。
+   */
+  replyUsers?: string[];
 }
 
 /** 消息接收传输方式 */

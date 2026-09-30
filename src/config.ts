@@ -90,6 +90,7 @@ const DEFAULT_GROUP_CONFIG: Omit<Required<GroupConfig>, "prompt"> = {
   toolPolicy: "restricted",
   name: "",
   historyLimit: DEFAULT_GROUP_HISTORY_LIMIT,
+  replyUsers: [],
 };
 
 /** 默认群消息行为 PE（可通过配置覆盖） */
@@ -141,6 +142,7 @@ export function resolveGroupConfigFromAccount(account: ResolvedQQBotAccount, gro
     name: specificCfg.name ?? wildcardCfg.name ?? DEFAULT_GROUP_CONFIG.name,
     prompt: specificCfg.prompt ?? wildcardCfg.prompt ?? DEFAULT_GROUP_PROMPT,
     historyLimit: specificCfg.historyLimit ?? wildcardCfg.historyLimit ?? DEFAULT_GROUP_CONFIG.historyLimit,
+    replyUsers: specificCfg.replyUsers ?? wildcardCfg.replyUsers ?? DEFAULT_GROUP_CONFIG.replyUsers,
   };
 }
 
