@@ -65,6 +65,11 @@ export interface GroupConfig {
    * 其余用户仍按 requireMention 判断是否需要 @。优先级：具体群 > "*" > 空。
    */
   replyUsers?: string[];
+  /**
+   * 关键词触发：群消息（不@）content 包含任一关键词时触发 AI（requireMention 置 false）。
+   * 其余不@消息仍按 requireMention 判断。优先级：具体群 > "*" > 空。
+   */
+  replyKeywords?: string[];
 }
 
 /** 消息接收传输方式 */

@@ -53,13 +53,22 @@ export function createPolicyInjector(account: ResolvedQQBotAccount): Middleware 
       const groupOpenid = msg.groupOpenid ?? '';
       const groupCfg = resolveGroupConfigFromAccount(account, groupOpenid);
       const replyUsers = groupCfg.replyUsers ?? [];
+      const replyKeywords = groupCfg.replyKeywords ?? [];
       const senderId = msg.author?.id ?? msg.senderId ?? msg.author?.member_openid ?? msg.member_openid ?? '';
       const senderInReplyUsers =
         replyUsers.length > 0 &&
         (replyUsers.includes('*') ||
           replyUsers.some((u) => String(u).toUpperCase() === String(senderId).toUpperCase()));
+      const contentLower = String(msg.content ?? '').toLowerCase();
+      const contentHitKeyword =
+        replyKeywords.length > 0 &&
+        replyKeywords.some((kw) => {
+          const k = String(kw).trim().toLowerCase();
+          return k === '*' || (k.length > 0 && contentLower.includes(k));
+        });
+      const bypassMention = senderInReplyUsers || contentHitKeyword;
       policy.group = {
-        requireMention: senderInReplyUsers ? false : groupCfg.requireMention,
+        requireMention: bypassMention ? false : groupCfg.requireMention,
         ignoreOtherMentions: groupCfg.ignoreOtherMentions,
         historyLimit: groupCfg.historyLimit,
         prompt: groupCfg.prompt,
