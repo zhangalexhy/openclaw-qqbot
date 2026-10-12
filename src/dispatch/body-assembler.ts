@@ -303,8 +303,8 @@ function buildAgentBody(input: {
     return userContent;
   }
 
-  // 群被@ + 有历史 → 叠历史前缀
-  if (isGroup && wasMentioned && history && history.length > 0) {
+  // 群消息进 agent turn + 有历史 → 叠历史前缀（含关键词触发，不只 @）
+  if (isGroup && history && history.length > 0) {
     const historyText = history
       .map((h) => {
         const label = formatSenderLabel(h.senderName, h.senderId);
